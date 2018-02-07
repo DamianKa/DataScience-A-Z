@@ -1,0 +1,25 @@
+# Log started 2018-02-07 19:04
+# Record of session commands.  Please note that this will
+# likely require editing if it is to be run as a script.
+open \
+  "/Users/damian_ka/C_Drive/Data Science A-Z/DataScience-A-Z/Churn-Modelling with test data attended.csv"
+dummify Gender
+dummify Geography
+rename 17 France
+rename 18 Spain
+rename 19 Germany
+rename 15 Female
+rename 16 Male
+# model 1
+logit Exited 0 CreditScore Age NumOfProducts IsActiveMember Female \
+  Germany Tenure --p-values
+Log_Balance = log10(Balance +1)
+# model 2
+logit Exited 0 CreditScore Age NumOfProducts IsActiveMember Female \
+  Germany Tenure Log_Balance --p-values
+fcast 10001 11000 --static
+# model 2
+fcast 10001 11000 P_Hat_TestData
+# store \
+  "/Users/damian_ka/C_Drive/Data Science A-Z/DataScience-A-Z/Churn-Modelling with test data attended - Forecast.csv" \
+   RowNumber P_Hat_TestData --csv
